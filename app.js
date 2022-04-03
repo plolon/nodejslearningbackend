@@ -1,22 +1,14 @@
-const express = require('express');
-const bodyParser = require('body-parser');
+const express = require("express");
+const bodyParser = require("body-parser");
 
 const app = express();
 
-app.use(bodyParser.urlencoded({extended: false}));
+const adminRoutes = require("./routes/admin");
+const shopRoutes = require("./routes/shop");
 
-app.use('/add-product', (req, res, next)=>{
-    console.log('default middleware!');
-    res.send('<form action="/product" method="POST"><input type="text" name="title"><button type="submit">AddProduct</button></form>');
-});
+app.use(bodyParser.urlencoded({ extended: false }));
 
-app.use('/product', (req,res,next)=>{
-    console.log(req.body);
-    res.redirect('/');
-});
+app.use(adminRoutes);
+app.use(shopRoutes);
 
-app.use('/', (req, res, next)=>{
-    console.log('default middleware!');
-    res.send('<h1>Welcome at home page<h1>');
-});
 app.listen(3000);
