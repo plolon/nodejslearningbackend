@@ -11,6 +11,8 @@ const res = require("express/lib/response");
 
 app.use(bodyParser.urlencoded({ extended: false }));
 
+app.use(express.static('./public/'));
+
 app.use('/admin', adminRoutes);
 app.use(shopRoutes);
 
