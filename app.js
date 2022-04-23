@@ -13,11 +13,11 @@ const shopRoutes = require("./routes/shop");
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/admin', adminData.routes);
+app.use('/admin', adminData);
 app.use(shopRoutes);
 
 app.use((req, res, next) => {
-    res.status(404).render('404', {pageTitle: 'Page not found!', path: '404'});
+    res.status(404).render('404', {pageTitle: 'Page not found!', path: ''});
 });
 
 app.listen(3000);
