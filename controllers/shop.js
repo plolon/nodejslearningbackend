@@ -1,4 +1,5 @@
 const { redirect } = require('express/lib/response');
+const Cart = require('../models/cart');
 const Product = require('../models/product');
 
 exports.getProducts = (req, res, next) => {
@@ -44,4 +45,12 @@ exports.getCheckout = (req, res, next) => {
     pageTitle: 'Checkout',
     path: '/checkout',
   });
+};
+
+exports.postCart = (req, res, next) => {
+  const prodId = req.body.productId;
+  Product.findById(prodId, (product)=>{
+    Cart.addProduct(prodId, product.price);
+  });
+  res.redirect('/cart');
 };
