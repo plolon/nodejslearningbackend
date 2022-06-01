@@ -18,11 +18,11 @@ exports.getProducts = (req, res, next) => {
 
 exports.getProduct = (req, res, next) => {
   const prodId = req.params.productId;
-  Product.findById(prodId)
-  .then(result => {
+  Product.findByPk(prodId)
+  .then(product => {
     res.render('shop/product-detail', {
-      product: result.rows[0],
-      pageTitle: result.rows[0].title,
+      product: product,
+      pageTitle: product.title,
       path: '/products'
     });
   })
@@ -30,10 +30,10 @@ exports.getProduct = (req, res, next) => {
 };
 
 exports.getIndex = (req, res, next) => {
-  Product.fetchAll()
-  .then(result => {
+  Product.findAll()
+  .then(products => {
     res.render('shop/index', {
-      prods: result.rows,
+      prods: products,
       pageTitle: 'All Products',
       path: '/',
     });
