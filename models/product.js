@@ -1,3 +1,5 @@
+const res = require('express/lib/response');
+
 const getDb = require('../util/database').getDb;
 
 class Product {
@@ -10,11 +12,26 @@ class Product {
 
   save() {
     const db = getDb();
-    db.collection('products').insertOne(this)
+    return db
+    .collection('products')
+    .insertOne(this)
     .then(result => {
-      console.log(result);
+      console.log('Created Product!');
+      res.redirect('admin/products');
     })
     .catch(err => console.error(err));
+  }
+
+  static fetchAll() {
+    const db = getDb();
+    return db.collection('products')
+    .find()
+    .toArray()
+    .then(products => {
+      console.log(products);
+      return products;
+    })
+    .catch(err => console.err(err));
   }
 }
 
