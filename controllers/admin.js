@@ -1,5 +1,4 @@
 const Product = require('../models/product');
-const mongodb = require('mongodb');
 
 exports.getAddProduct = (req, res, next)=>{
     res.render('admin/edit-product', {
@@ -14,12 +13,14 @@ exports.postAddProduct = (req, res, next) => {
       req.body.title,
       req.body.price,
       req.body.description,
-      req.body.imageUrl
+      req.body.imageUrl,
+      null,
+      req.user._id
     );
     product.save()
     .then(result => {
       console.log(result)
-      res.redirect('admin/products');
+      res.redirect('/admin/products');
     })
     .catch(err => console.error(err));
 };
@@ -48,19 +49,19 @@ exports.postEditProduct = (req, res, next) => {
       req.body.price,
       req.body.description,
       req.body.imageUrl,
-      new mongodb.ObjectId(req.body.productId)
+      req.body.productId
       );
       product.save()
     .then(res.redirect('/admin/products'))
     .catch(err => console.error(err));
 };
 
-// exports.postDeleteProduct = (req, res, next) => {
-//   Product.destroy({where: {id: req.body.productId}})
-//   .then(res.redirect('/admin/products'))
-//   .catch(err => console.error(err));
+exports.postDeleteProduct = (req, res, next) => {
+  Product.destroy(req.body.productId)
+  .then(res.redirect('/admin/products'))
+  .catch(err => console.error(err));
     
-// }
+}
 
 exports.getProducts = (req, res, next) => {
     Product.fetchAll()
