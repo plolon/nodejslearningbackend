@@ -46,6 +46,7 @@ exports.getEditProduct = (req, res, next)=>{
 };
 
 exports.postEditProduct = (req, res, next) => {
+  console.log('body', req.body);
     Product.findByPk(req.body.productId)
     .then(product=>{
       product.title=req.body.title;
