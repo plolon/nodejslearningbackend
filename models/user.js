@@ -8,7 +8,7 @@ const userSchema = new Schema({
     required: true,
   },
   email: {
-    type: Number,
+    type: String,
     required: true,
   },
   cart: {
