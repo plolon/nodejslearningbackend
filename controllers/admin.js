@@ -54,7 +54,7 @@ exports.postEditProduct = (req, res, next) => {
 };
 
 exports.postDeleteProduct = (req, res, next) => {
-  Product.destroy(req.body.productId)
+  Product.findByIdAndRemove(req.body.productId)
   .then(res.redirect('/admin/products'))
   .catch(err => console.error(err));
     
