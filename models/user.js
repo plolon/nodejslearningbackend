@@ -56,6 +56,11 @@ userSchema.methods = {
     this.cart.items = updatedCartItems;
     return this.save();
   },
+
+  clearCart(){
+    this.cart = {items: []};
+    return this.save();
+  }
 };
 
 module.exports = mongoose.model('User', userSchema);
