@@ -1,5 +1,6 @@
 const path = require('path');
 const express = require('express');
+const session = require('express-session');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
@@ -16,9 +17,16 @@ const authRoutes = require('./routes/auth');
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(
+  session({
+    secret: 'dev secret',
+    resave: false,
+    saveUninitialized: false,
+  })
+);
 
 app.use((req, res, next) => {
-  User.findById("62c34b1ca62ebec7cc5e5276")
+  User.findById('62c34b1ca62ebec7cc5e5276')
     .then((user) => {
       req.user = user;
       next();
@@ -36,16 +44,16 @@ mongoose
     'mongodb+srv://plolon:e6aXbL7D95sJHsNp@node-shop.zriwiyl.mongodb.net/?retryWrites=true&w=majority'
   )
   .then((result) => {
-    User.findOne().then(user => {
-      if(!user){
+    User.findOne().then((user) => {
+      if (!user) {
         const user = new User({
           name: 'Bob',
           email: 'bob@email.com',
-          cart: { items: [] }
+          cart: { items: [] },
         });
         user.save();
       }
-    })
+    });
     app.listen(3000);
   })
   .catch((err) => console.error(err));

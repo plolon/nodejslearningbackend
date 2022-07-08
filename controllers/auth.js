@@ -7,7 +7,6 @@ exports.getLogin = (req, res, next) => {
 };
 
 exports.postLogin = (req, res, next) => {
-  req.isLoggedIn = true;  // TODO validation
-  res.redirect('/');  //TODO authentication
-  // TODO session instead request
+  req.session.isLoggedIn = true;
+  res.redirect('/');
 };
