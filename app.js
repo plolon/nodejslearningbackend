@@ -4,9 +4,10 @@ const session = require('express-session');
 const MongoDBStore = require('connect-mongodb-session')(session);
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+const dotenv = require("dotenv").config({path: './credentials.env'});
 
 const MONGODB_URI =
-  'mongodb+srv://plolon:e6aXbL7D95sJHsNp@node-shop.zriwiyl.mongodb.net/';
+  `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@node-shop.zriwiyl.mongodb.net/`;
 
 const errorController = require('./controllers/error');
 const User = require('./models/user');
