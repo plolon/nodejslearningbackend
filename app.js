@@ -4,10 +4,9 @@ const session = require('express-session');
 const MongoDBStore = require('connect-mongodb-session')(session);
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
-const dotenv = require("dotenv").config({path: './credentials.env'});
+const dotenv = require('dotenv').config({ path: './credentials.env' });
 
-const MONGODB_URI =
-  `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@node-shop.zriwiyl.mongodb.net/`;
+const MONGODB_URI = `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@node-shop.zriwiyl.mongodb.net/`;
 
 const errorController = require('./controllers/error');
 const User = require('./models/user');
@@ -32,17 +31,20 @@ app.use(
     secret: 'dev secret',
     resave: false,
     saveUninitialized: false,
-    store: store
+    store: store,
   })
 );
 
 app.use((req, res, next) => {
-  User.findById('62c34b1ca62ebec7cc5e5276')
-    .then((user) => {
-      req.user = user;
-      next();
-    })
-    .catch((err) => console.error(err));
+  if (req.session.isLoggedIn !== true) {
+    return next();
+  }
+    User.findById(req.session.user._id)
+      .then((user) => {
+        req.user = user;
+        next();
+      })
+      .catch((err) => console.error(err));
 });
 
 app.use('/admin', adminRoutes);
