@@ -27,20 +27,15 @@ exports.postLogin = (req, res, next) => {
       .then(result => {
         if(result){
           req.session.isLoggedIn = true;
-          req.session.user = userl
+          req.session.user = user;
           return req.session.save((err => {
             console.log(err);
             res.redirect('/');  
           }))
-        }
+        } else
+        return res.redirect('/login');
       })
       .catch(err => console.error(err));
-      req.session.isLoggedIn = true;
-      req.session.user = user;
-      req.session.save((err) => {
-        console.log(err);
-        res.redirect('/');
-      });
     })
     .catch((err) => console.log(err));
 };
