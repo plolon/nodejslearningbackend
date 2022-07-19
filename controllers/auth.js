@@ -80,7 +80,7 @@ exports.postSignup = (req, res, next) => {
           res.redirect('/login');
           return transport.sendMail({
             to: req.body.email,
-            from: 'shop@node-learning.com',
+            from: 'plolon@wp.pl',
             subject: 'Signup succeeded!',
             html: '<h1>You successfully signed up!</h1>',
           });
