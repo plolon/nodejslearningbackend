@@ -1,0 +1,9 @@
+{
+  "rootDir": ".",
+    "name": "nodejs-project",
+    "jest": {
+      "verbose": true
+    },
+  "testEnvironment": "node",
+  "moduleNameMapper": ["js", "json"]
+  }
