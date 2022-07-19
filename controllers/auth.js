@@ -1,5 +1,16 @@
 const User = require('../models/user');
 const bcrypt = require('bcryptjs');
+const nodemailer = require('nodemailer');
+const sendgridTransport = require('nodemailer-sendgrid-transport');
+
+const transport = nodemailer.createTransport(
+  sendgridTransport({
+    auth: {
+      api_key:
+        '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',
+    },
+  })
+);
 
 exports.getLogin = (req, res, next) => {
   let message = req.flash('error');
@@ -8,7 +19,7 @@ exports.getLogin = (req, res, next) => {
   res.render('auth/login', {
     path: '/login',
     pageTitle: 'Login',
-    errorMessage: message
+    errorMessage: message,
   });
 };
 
@@ -67,6 +78,12 @@ exports.postSignup = (req, res, next) => {
         })
         .then((result) => {
           res.redirect('/login');
+          return transport.sendMail({
+            to: req.body.email,
+            from: 'shop@node-learning.com',
+            subject: 'Signup succeeded!',
+            html: '<h1>You successfully signed up!</h1>',
+          });
         })
         .catch((err) => console.error(err));
     })
