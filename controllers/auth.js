@@ -169,17 +169,15 @@ exports.postNewPassword = (req, res, next) => {
     .then((user) => {
       if (user.resetTokenExpiration <= Date.now()) {
         req.flash('error', 'Password reset request expired.');
-        res.redirect('/login');
-      }
-      else{
+        return res.redirect('/login');
+      } else {
         user.password = hashedPassword;
-        return user.save();
+        return user.save().then((result) => {
+          console.log(result);
+          req.flash('info', 'Password successfully updated.');
+          res.redirect('/login');
+        });
       }
-    })
-    .then(result => {
-      console.log(result);
-      req.flash('info', 'Password successfully updated.');
-      res.redirect('/login');
     })
     .catch((err) => console.error(err));
 };
